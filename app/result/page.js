@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import styles from "../page.module.css";
 
 function convertMarkdownToHtml(markdown) {
@@ -13,7 +14,7 @@ function convertMarkdownToHtml(markdown) {
   return html;
 }
 
-export default function Result() {
+function ResultContent() {
   const [title, setTitle] = useState('문제를 출제중이에요...');
   const [showPills, setShowPills] = useState(false);
   const [showText, setShowText] = useState(false);
@@ -115,5 +116,13 @@ export default function Result() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function Result() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
